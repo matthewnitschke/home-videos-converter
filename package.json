@@ -1,0 +1,33 @@
+{
+  "name": "home-videos-server",
+  "version": "1.0.0",
+  "description": "A tiny self-hosted home video library",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "dev": "mkdir -p data && docker build -q -t home-videos-server:dev . && docker run --rm -it --init -p \"${PORT:-3000}:3000\" --user \"$(id -u):$(id -g)\" -e MEDIA_DIR=/media -e \"TZ=${TZ:-UTC}\" -v \"$PWD/server:/app/server\" -v \"$PWD/frontend:/app/frontend\" -v \"$PWD/data/test:/media\" home-videos-server:dev node --watch server/server.ts",
+    "start": "node server/server.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "12.15.0",
+      "onFail": "download"
+    }
+  },
+  "packageManager": "pnpm@12.15.0",
+  "engines": {
+    "node": ">=24"
+  },
+  "dependencies": {
+    "@hono/node-server": "^2.1.5",
+    "hono": "^4.13.13",
+    "mithril": "^2.3.8"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.5",
+    "typescript": "^7.0.2"
+  }
+}
